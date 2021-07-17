@@ -4,7 +4,6 @@ conda_env: conda.yml
 entry_points:
   main:
     parameters:
-
       trainval_artifact:
         description: Train dataset
         type: string
