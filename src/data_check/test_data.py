@@ -1,9 +1,17 @@
-import pandas as pd
+import logging
+
 import numpy as np
+import pandas as pd
 import scipy.stats
+
+logging.basicConfig(filename='/Users/vineetkumar/Documents/udacity_ml_devops/project 2/nd0821-c2-build-model-workflow-starter/logs/data_check.log',
+                    level=logging.INFO,
+                    format="%(asctime)-15s %(message)s")
+logger = logging.getLogger()
 
 
 def test_column_names(data):
+    """Test if column names in the input data match"""
 
     expected_colums = [
         "id",
@@ -27,26 +35,31 @@ def test_column_names(data):
     these_columns = data.columns.values
 
     # This also enforces the same order
-    assert list(expected_colums) == list(these_columns)
+    assert list(expected_colums) == list(these_columns), \
+        logger.info("Column names in the input data doesn't match")
 
 
 def test_neighborhood_names(data):
+    """Test if Neighborhood names in the input data match"""
 
     known_names = ["Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]
 
     neigh = set(data['neighbourhood_group'].unique())
 
     # Unordered check
-    assert set(known_names) == set(neigh)
+    assert set(known_names) == set(neigh), \
+        logger.info("Neighborhood names in the input data doesn't match")
 
 
 def test_proper_boundaries(data: pd.DataFrame):
     """
     Test proper longitude and latitude boundaries for properties in and around NYC
     """
-    idx = data['longitude'].between(-74.25, -73.50) & data['latitude'].between(40.5, 41.2)
+    idx = data['longitude'].between(-74.25, - 73.50) & \
+        data['latitude'].between(40.5, 41.2)
 
-    assert np.sum(~idx) == 0
+    assert np.sum(~idx) == 0, \
+        logger.info("Column names in the input data doesn't match")
 
 
 def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_threshold: float):
@@ -63,3 +76,20 @@ def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_th
 ########################################################
 # Implement here test_row_count and test_price_range   #
 ########################################################
+
+def test_row_count(data):
+    """To validate if the data has reasonable size."""
+
+    row_count = data.shape[0]
+
+    assert 15000 < row_count < 100000, \
+        logger.info("The dataset size is not sufficent or more than needed.")
+
+
+def test_price_range(data, min_price, max_price):
+    """To check if price values lies within reasonable range."""
+
+    idx = data['price'].between(min_price, max_price)
+
+    assert np.sum(~idx) == 0, \
+        logger.info("Price column has outliers...")
