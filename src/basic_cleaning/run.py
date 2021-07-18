@@ -8,8 +8,7 @@ import logging
 import pandas as pd
 import wandb
 
-logging.basicConfig(filename='/Users/vineetkumar/Documents/udacity_ml_devops/project 2/nd0821-c2-build-model-workflow-starter/logs/basic_clean.log',
-                    level=logging.INFO,
+logging.basicConfig(level=logging.INFO,
                     format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
 
@@ -24,9 +23,7 @@ def go(args):
     artifact_local_path = run.use_artifact(args.input_artifact).file()
     logger.info('Input artifact received')
 
-    ######################
-    # YOUR CODE HERE     #
-    ######################
+    # read the input csv artifact
     df = pd.read_csv(artifact_local_path)
 
     # filter outliers in 'price' column
@@ -34,8 +31,8 @@ def go(args):
     df = df[idx].copy()
 
     # filter outliers in 'longitude' column
-    idx = df['longitude'].between(-74.25, -73.50) & \
-        df['latitude'].between(40.5, 41.2)
+    idx = df['longitude'].between(args.min_longitude, args.max_longitude) & \
+        df['latitude'].between(args.min_latitude, args.max_latitude)
     df = df[idx].copy()
 
     # convert last_review column type from str to datetime

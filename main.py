@@ -49,9 +49,7 @@ def go(config: DictConfig):
             )
 
         if "basic_cleaning" in active_steps:
-            ##################
-            # Implement here #
-            ##################
+            # performing the basic data cleaning and preprocessing steps
             _ = mlflow.run(
                 uri=os.path.join(hydra.utils.get_original_cwd(),
                                  'src',
@@ -68,9 +66,7 @@ def go(config: DictConfig):
             )
 
         if "data_check" in active_steps:
-            ##################
-            # Implement here #
-            ##################
+            # performing the data validation checks
             _ = mlflow.run(
                 uri=os.path.join(hydra.utils.get_original_cwd(),
                                  'src',
@@ -86,9 +82,7 @@ def go(config: DictConfig):
             )
 
         if "data_split" in active_steps:
-            ##################
-            # Implement here #
-            ##################
+            # Splitting the data into trainval, and test set
             _ = mlflow.run(
                 uri=f"{config['main']['components_repository']}/train_val_test_split",
                 entry_point='main',
@@ -111,9 +105,7 @@ def go(config: DictConfig):
                 )
 
             # NOTE: use the rf_config we just created as the rf_config parameter for the train_random_forest
-            ##################
-            # Implement here #
-            ##################
+            # Training the random forest regressor model
             _ = mlflow.run(
                 uri=os.path.join(hydra.utils.get_original_cwd(),
                                  'src',
@@ -131,10 +123,7 @@ def go(config: DictConfig):
             )
 
         if "test_regression_model" in active_steps:
-
-            ##################
-            # Implement here #
-            ##################
+            # Test and evaluate the model accuarcy on test set
             _ = mlflow.run(
                 uri=f"{config['main']['components_repository']}/test_regression_model",
                 entry_point='main',

@@ -12,8 +12,7 @@ from sklearn.metrics import mean_absolute_error
 from wandb_utils.log_artifact import log_artifact
 
 
-logging.basicConfig(filename='/Users/vineetkumar/Documents/udacity_ml_devops/project 2/nd0821-c2-build-model-workflow-starter/logs/test_model.log',
-                    level=logging.INFO,
+logging.basicConfig(level=logging.INFO,
                     format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
 

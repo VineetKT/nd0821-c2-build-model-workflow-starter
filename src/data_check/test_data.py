@@ -4,8 +4,7 @@ import numpy as np
 import pandas as pd
 import scipy.stats
 
-logging.basicConfig(filename='/Users/vineetkumar/Documents/udacity_ml_devops/project 2/nd0821-c2-build-model-workflow-starter/logs/data_check.log',
-                    level=logging.INFO,
+logging.basicConfig(level=logging.INFO,
                     format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
 
@@ -72,10 +71,6 @@ def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_th
 
     assert scipy.stats.entropy(dist1, dist2, base=2) < kl_threshold
 
-
-########################################################
-# Implement here test_row_count and test_price_range   #
-########################################################
 
 def test_row_count(data):
     """To validate if the data has reasonable size."""
